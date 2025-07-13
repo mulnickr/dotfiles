@@ -1,0 +1,5 @@
+require("options")
+require("plugins.init")
+require("plugins.setup")
+require("autocmds")
+require("keybinds")
