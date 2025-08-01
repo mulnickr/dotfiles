@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1713484068\\share\\lua\\5.1\\?.lua;C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1713484068\\share\\lua\\5.1\\?\\init.lua;C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1713484068\\lib\\luarocks\\rocks-5.1\\?.lua;C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1713484068\\lib\\luarocks\\rocks-5.1\\?\\init.lua"
-local install_cpath_pattern = "C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1713484068\\lib\\lua\\5.1\\?.so"
+local package_path_str = "C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1741730670\\share\\lua\\5.1\\?.lua;C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1741730670\\share\\lua\\5.1\\?\\init.lua;C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1741730670\\lib\\luarocks\\rocks-5.1\\?.lua;C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1741730670\\lib\\luarocks\\rocks-5.1\\?\\init.lua"
+local install_cpath_pattern = "C:\\Users\\ramis\\AppData\\Local\\Temp\\nvim\\packer_hererocks\\2.1.1741730670\\lib\\lua\\5.1\\?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -74,55 +74,16 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  LeaderF = {
+  ["carbide.nvim"] = {
+    config = { "\27LJ\2\nB\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\2\0\0\tdark\nsetup\fcarbide\frequire\0" },
     loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\LeaderF",
-    url = "https://github.com/Yggdroot/LeaderF"
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\carbide.nvim",
+    url = "https://github.com/ferdinandrau/carbide.nvim"
   },
-  ["barbar.nvim"] = {
+  ["incline.nvim"] = {
     loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\barbar.nvim",
-    url = "https://github.com/romgrk/barbar.nvim"
-  },
-  ["cmp-buffer"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-buffer",
-    url = "https://github.com/hrsh7th/cmp-buffer"
-  },
-  ["cmp-nvim-lsp"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-nvim-lsp",
-    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
-  },
-  ["cmp-nvim-lsp-signature-help"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-nvim-lsp-signature-help",
-    url = "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
-  },
-  ["cmp-nvim-lua"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-nvim-lua",
-    url = "https://github.com/hrsh7th/cmp-nvim-lua"
-  },
-  ["cmp-path"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-path",
-    url = "https://github.com/hrsh7th/cmp-path"
-  },
-  ["cmp-snippy"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-snippy",
-    url = "https://github.com/dcampos/cmp-snippy"
-  },
-  ["lavish.nvim"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lavish.nvim",
-    url = "https://github.com/ferdinandrau/lavish.nvim"
-  },
-  ["lualine.nvim"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lualine.nvim",
-    url = "https://github.com/nvim-lualine/lualine.nvim"
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\incline.nvim",
+    url = "https://github.com/b0o/incline.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
@@ -130,40 +91,50 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
   },
   ["mason.nvim"] = {
+    config = { "\27LJ\2\n3\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\nmason\frequire\0" },
     loaded = true,
     path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
-  ["neo-tree.nvim"] = {
+  ["mini.completion"] = {
     loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\neo-tree.nvim",
-    url = "https://github.com/nvim-neo-tree/neo-tree.nvim"
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.completion",
+    url = "https://github.com/echasnovski/mini.completion"
   },
-  ["nui.nvim"] = {
+  ["mini.files"] = {
     loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nui.nvim",
-    url = "https://github.com/MunifTanjim/nui.nvim"
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.files",
+    url = "https://github.com/echasnovski/mini.files"
   },
-  ["nvim-autopairs"] = {
-    config = { "\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0" },
+  ["mini.icons"] = {
     loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-autopairs",
-    url = "https://github.com/windwp/nvim-autopairs"
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.icons",
+    url = "https://github.com/echasnovski/mini.icons"
   },
-  ["nvim-cmp"] = {
+  ["mini.pick"] = {
     loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-cmp",
-    url = "https://github.com/hrsh7th/nvim-cmp"
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.pick",
+    url = "https://github.com/echasnovski/mini.pick"
+  },
+  ["mini.snippets"] = {
+    loaded = true,
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.snippets",
+    url = "https://github.com/echasnovski/mini.snippets"
+  },
+  ["mini.statusline"] = {
+    loaded = true,
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.statusline",
+    url = "https://github.com/echasnovski/mini.statusline"
+  },
+  ["mini.surround"] = {
+    loaded = true,
+    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mini.surround",
+    url = "https://github.com/echasnovski/mini.surround"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
-  },
-  ["nvim-snippy"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-snippy",
-    url = "https://github.com/dcampos/nvim-snippy"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -173,25 +144,19 @@ _G.packer_plugins = {
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-web-devicons",
-    url = "https://github.com/kyazdani42/nvim-web-devicons"
-  },
-  ["nvim-window-picker"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-window-picker",
-    url = "https://github.com/s1n7ax/nvim-window-picker"
-  },
-  ["plenary.nvim"] = {
-    loaded = true,
-    path = "C:\\Users\\ramis\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\plenary.nvim",
-    url = "https://github.com/nvim-lua/plenary.nvim"
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-try_loadstring("\27LJ\2\n<\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
-time([[Config for nvim-autopairs]], false)
+-- Config for: carbide.nvim
+time([[Config for carbide.nvim]], true)
+try_loadstring("\27LJ\2\nB\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\2\0\0\tdark\nsetup\fcarbide\frequire\0", "config", "carbide.nvim")
+time([[Config for carbide.nvim]], false)
+-- Config for: mason.nvim
+time([[Config for mason.nvim]], true)
+try_loadstring("\27LJ\2\n3\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\nmason\frequire\0", "config", "mason.nvim")
+time([[Config for mason.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

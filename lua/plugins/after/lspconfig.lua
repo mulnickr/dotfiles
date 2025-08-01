@@ -1,6 +1,5 @@
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
 local utils = require("utils")
 
 local map = vim.keymap.set
@@ -49,7 +48,6 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
-
 for _, config in ipairs(utils.ensure_installed_lsp) do
   lspconfig[config].setup({
     capabilities = capabilities,

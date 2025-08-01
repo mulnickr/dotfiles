@@ -17,7 +17,7 @@ local options = {
     relativenumber = true, --- Enables relative number
     scrolloff = 8, --- Always keep space when scrolling to bottom/top edge
     shiftwidth = 2, --- Change a number of space characters inserted for indentation
-    showtabline = 2, --- Always show tabs
+    showtabline = 0, -- 2, --- Always show tabs
     signcolumn = "yes:2", --- Add extra sign column next to line number
     smartcase = true, --- Uses case in search
     smartindent = true, --- Makes indenting smart
@@ -65,7 +65,7 @@ local globals = {
     loaded_netrwPlugin = 1
 }
 
-vim.cmd('colorscheme lavish')
+vim.cmd('colorscheme carbide')
 vim.opt.shortmess:append('c');
 vim.opt.formatoptions:remove('c');
 vim.opt.formatoptions:remove('r');
@@ -85,12 +85,12 @@ for k, v in pairs(globals) do
     vim.g[k] = v
 end
 
--- theme
-require('lualine').setup({
-    options = {
-        theme = 'lavish'
-    }
-})
+-- -- theme
+-- require('lualine').setup({
+--     options = {
+--         theme = 'lavish'
+--     }
+-- })
 
 -- autocomplete appearance
 --[[
