@@ -1,3 +1,5 @@
+-- @deprecated to be removed in a future version
+
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local utils = require("utils")
