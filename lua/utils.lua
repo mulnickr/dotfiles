@@ -33,6 +33,12 @@ function U.packMultiAdd(sources)
   end
 end
 
+-- git(source) prepends github.com to the source
+-- @return string
+function U.git(source)
+  return "https://github.com" .. source
+end
+
 function U.ensure_packer()
   local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then

@@ -19,6 +19,5 @@ map({ 'n', 'v', 'i' }, '<C-j>', '<cmd>wincmd j<CR>', opts)
 map({ 'n', 'v', 'i' }, '<C-k>', '<cmd>wincmd k<CR>', opts)
 map({ 'n', 'v', 'i' }, '<C-l>', '<cmd>wincmd l<CR>', opts)
 
--- comments -- Just use gc/gcc
-map('n', '<leader>c', 'gcc<CR>', opts)
-map('v', '<leader>c', 'gc<CR>', opts)
+-- focus current split (Use `:q` to exit focus)
+map({ 'n', 'v' }, '<leader>f', '<cmd>tab sp<CR>', opts)

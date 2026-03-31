@@ -1,0 +1,6 @@
+{
+    "workspace.library": [
+        "C:\\Program Files\\Neovim\\share/nvim/runtime",
+        "${3rd}/luv/library"
+    ]
+}

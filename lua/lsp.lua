@@ -13,6 +13,7 @@ for _, l in ipairs(lsp_configs) do
 end
 
 
+
 local key_map = function()
   local map = utils.map
   local opts = { noremap = true, silent = false }
@@ -26,19 +27,42 @@ local key_map = function()
   map(modes, '<leader>d', vim.lsp.buf.definition, ext({ desc = "Definitions" }))
   map(modes, '<leader>A', vim.lsp.buf.implementation, ext({ desc = "Implementation" }))
   map(modes, '<leader>a', vim.lsp.buf.hover, ext({ desc = "Hover Information" }))
-  map({ 'n', 'i' }, '<c-k>', vim.lsp.buf.signature_help, opts)
-  map(modes, '<leader>r', vim.lsp.buf.rename, opts)
+  map({ 'n', 'i' }, '<c-k>', vim.lsp.buf.signature_help, ext({ desc = "Signature Help" }))
+  map(modes, '<leader>r', vim.lsp.buf.rename, ext({ desc = "Rename" }))
   map(modes, '<leader>F', function()
     vim.lsp.buf.format({ async = true })
-  end, opts)
+  end, ext({ desc = "Format" }))
+  map('i', '<Tab>', '<c-y>', ext({ desc = "Autocomplete" }))
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
-    vim.notify(string.format("Attaching to LSP..."))
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    -- local client = vim.lsp.get_client_by_id(event.data.client_id)
     key_map()
-    vim.lsp.completion.enable(true, event.data.client_id, event.buf, {})
-    vim.notify(string.format("%s client attached to buffer: %d", client, event.buf))
+    vim.lsp.completion.enable(true, event.data.client_id, event.buf, {
+      noselect = true,
+      menuone = true,
+      autotrigger = true,
+      convert = function(item)
+        return { abbr = item.label:gsub('%b()', '') }
+      end
+    })
   end
+})
+
+vim.diagnostic.config({
+  severity_sort = true,
+  float = {
+    close_events = {
+      'CursorMoved',
+      'CursorMovedI',
+      'BufLeave',
+      'BufHidden',
+      'InsertCharPre',
+      'WinLeave',
+      'InsertEnter',
+      'LspAttach',
+      'LspDetach',
+    },
+  },
 })

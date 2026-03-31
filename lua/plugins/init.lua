@@ -1,99 +1,144 @@
-local utils = require("utils")
+local function plugin(spec)
+  if type(spec) == "string" then
+    return { src = "https://github.com/" .. spec }
+  elseif type(spec) == "table" then
+    local name = spec[1]
+    if not name then
+      error("plugin: missing plugin name in spec: " .. vim.inspect(spec))
+    end
+    local result = { src = "https://github.com/" .. name }
+    for k, v in pairs(spec) do
+      if k ~= 1 then
+        result[k] = v
+      end
+    end
+    return result
+  else
+    error("plugin: invalid type")
+  end
+end
 
+local function plugin_group(prefix, specs)
+  local result = {}
+  for _, spec in ipairs(specs) do
+    if type(spec) == "string" then
+      table.insert(result, plugin(prefix .. spec))
+    elseif type(spec) == "table" then
+      if not spec[1] then
+        error("plugin_group: missing plugin name: " .. vim.inspect(spec))
+      end
+      local new = { prefix .. spec[1] }
+      for k, v in pairs(spec) do
+        if k ~= 1 then
+          new[k] = v
+        end
+      end
+      table.insert(result, plugin(new))
+    else
+      error("plugin_group: invalid type")
+    end
+  end
+  return result
+end
 
--- Replacing packer with vim.pack
---  This may require some internal setup to get working in a way I like
---
--- Basic tools
---utils.packMultiAdd({
---  'nvim-treesitter/nvim-treesitter',
---  'ferdinandrau/carbide.nvim',
---  'mini.surround',
---  'mini.statusline',
---  'mini.files',
---    'mini.comment',
---})
---require('mini.surround').setup()
---require('mini.statusline').setup()
---require('mini.files').setup()
---require('mini.pick').setup()
---require('carbide').setup('dark')
+local function is_array(t)
+  if type(t) ~= "table" then return false end
+  local i = 1
+  for k, _ in pairs(t) do
+    if k ~= i then return false end
+    i = i + 1
+  end
+  return true
+end
 
--- Lsp Setup
---utils.packMultiAdd({
---  'williamboman/mason.nvim', 'williamboman/mason-lspconfig.nvim', 'neovim/nvim-lspconfig',
---})
+local function flatten(t)
+  local result = {}
+  local function _flatten(item)
+    if type(item) == "table" and is_array(item) then
+      for _, v in ipairs(item) do
+        _flatten(v)
+      end
+    else
+      table.insert(result, item)
+    end
+  end
+  _flatten(t)
+  return result
+end
 
+local function init_plugins(plugins)
+  for _, p in ipairs(plugins) do
+    if type(p) == "table" and type(p.config) == "function" then
+      local ok, err = pcall(p.config)
+      if not ok then
+        vim.notify("Plugin initialization failed: " .. err, vim.log.levels.ERROR)
+      end
+    end
+  end
+end
 
+local mini_plugins = {
+  'mini.pick',
+  'mini.files',
+  'mini.comment',
+  'mini.surround',
+  'mini.pairs',
+  'mini.completion',
+  'mini.notify',
+  'mini.statusline',
+  'mini.icons',
+  'mini.snippets',
+}
 
-local packer_bootstrap = require("utils").ensure_packer()
-
-return require('packer').startup(function(use)
-  -- TODO: Replacing with build in package manager (when release?)
-  -- I want to replace pretty much everything here with mini.nvim
-  -- Possibly even including replacing packer with mini.deps (?)
+local plugin_list = flatten({
+  -- treesitter
+  plugin({
+    'nvim-treesitter/nvim-treesitter',
+    version = 'master',
+  }),
 
   -- general
-  use {
-    'nvim-treesitter/nvim-treesitter'
-  }
-
-  use {
-    'williamboman/mason.nvim',
-    requires = { 'williamboman/mason-lspconfig.nvim', 'neovim/nvim-lspconfig' },
-    config = function()
-      require('mason').setup()
-    end
-  }
-
-  use {
-    'nvim-tree/nvim-web-devicons',
-  }
-
-  utils.multi_load_pre(use, "echasnovski/", {
-    'mini.snippets',
-    'mini.icons',
-    'mini.files',
-    'mini.pick',
-    'mini.completion',
-    'mini.statusline',
-    'mini.surround',
-  })
-
-  use 'b0o/incline.nvim'
-
-  -- color theme
-  use {
+  plugin({
     'ferdinandrau/carbide.nvim',
     config = function()
       require('carbide').setup({ 'dark' })
-    end
-  }
+    end,
+  }),
 
-  -- use {
-  --   'hrsh7th/nvim-cmp',
-  --   requires = {
-  --     'hrsh7th/cmp-buffer',
-  --     'hrsh7th/cmp-path',
-  --     'hrsh7th/cmp-nvim-lua',
-  --     'hrsh7th/cmp-nvim-lsp',
-  --     'hrsh7th/cmp-nvim-lsp-signature-help',
-  --     'dcampos/nvim-snippy',
-  --     'dcampos/cmp-snippy',
-  --   }
-  -- }
+  -- lsp
+  plugin_group('williamboman/', {
+    {
+      'mason.nvim',
+      config = function()
+        require('mason').setup()
+      end,
+    },
+    {
+      'mason-lspconfig.nvim',
+      config = function()
+        require('mason-lspconfig').setup()
+      end,
+    },
+  }),
+  plugin('neovim/nvim-lspconfig'),
 
-  if packer_bootstrap then
-    require("packer").sync()
-  end
+  -- mini
+  plugin_group('echasnovski/', mini_plugins)
+})
 
+vim.pack.add(plugin_list)
+init_plugins(plugin_list)
 
-  -- Setup required mini.nvim packages here?
-  for _, plugin in ipairs(utils.plugins) do
-    require(plugin).setup()
-  end
+-- Configure all `mini` plugins
+local utils = require("utils")
+for _, p in ipairs(utils.mini_plugins) do
+  require('mini.' .. p).setup()
+end
 
-  for _, plugin in ipairs(utils.mini_plugins) do
-    require('mini.' .. plugin).setup()
-  end
-end)
+-- require('plugins.after.lspconfig')
+
+-- custom mini plugins
+local setup_mini = { 'comment', 'completion', 'files', 'pick', 'statusline' }
+for _, m in ipairs(setup_mini) do
+  require('plugins.after.mini.' .. m)
+end

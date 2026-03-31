@@ -1,6 +1,6 @@
 require("options")
 require("plugins.init")
-require("plugins.setup")
+-- require("plugins.setup")
 require("autocmds")
 require("lsp")
 require("keybinds")
