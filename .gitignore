@@ -1,0 +1,4 @@
+plugin/
+spell/
+.luarc.json
+nvim-pack-lock.json
