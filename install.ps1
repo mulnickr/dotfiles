@@ -55,5 +55,6 @@ foreach ($l in $links) {
 foreach ($r in $retire) {
   if ((Test-Path -LiteralPath (Join-Path $repo $r.Source)) -and (Test-Path -LiteralPath $r.Path)) {
     Backup-Path $r.Path | Out-Null
+    Write-Host "  restart open WezTerm windows: they still watch the old file and will show a config error"
   }
 }

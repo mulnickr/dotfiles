@@ -45,4 +45,5 @@ link hypr    "$config/hypr"
 if [ -e "$repo/wezterm" ] && [ -e "$HOME/.wezterm.lua" ]; then
   mv "$HOME/.wezterm.lua" "$HOME/.wezterm.lua.bak-$stamp"
   echo "  backed up $HOME/.wezterm.lua -> $HOME/.wezterm.lua.bak-$stamp"
+  echo "  restart open WezTerm windows: they still watch the old file and will show a config error"
 fi
