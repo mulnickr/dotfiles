@@ -1,4 +1,6 @@
-return require("mini.statusline").setup({
+local MiniStatusline = require("mini.statusline")
+
+return MiniStatusline.setup({
   content = {
     active = function()
       local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })

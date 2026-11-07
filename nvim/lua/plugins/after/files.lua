@@ -1,6 +1,8 @@
+local files = require('mini.files')
+
 -- Default setup for now
-require('mini.files').setup()
+files.setup()
 
 -- Keybinds
 local map = require("utils").map
-map('', '<leader>n', function() MiniFiles.open() end)
+map('', '<leader>n', function() files.open() end)
