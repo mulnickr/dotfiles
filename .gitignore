@@ -1,3 +1,7 @@
-plugin/
-spell/
-.luarc.json
+# nvim
+nvim/plugin/
+nvim/spell/
+nvim/.luarc.json
+
+# lazygit runtime state (if lazygit/ is added later)
+lazygit/state.yml
