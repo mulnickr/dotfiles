@@ -1,5 +1,5 @@
 return {
-  name = 'luals',
+  name = 'lua_ls',
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { '.luarc.json', '.luarc.jsonc', '.git' },
@@ -13,7 +13,7 @@ return {
         },
       },
       workspace = {
-        checkThirdParty = true,
+        checkThirdParty = false, --- `true` prompts "configure as luv?" on every new workspace
         library = {
           vim.env.VIMRUNTIME
         },

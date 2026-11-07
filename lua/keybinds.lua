@@ -1,23 +1,15 @@
-local utils = require('utils')
-local map = utils.map
-local opts = {
-  noremap = true,
-  silent = true,
-}
+local map = require('utils').map
 
--- Navigating
-map('n', '<leader>z', '<cmd>z.<CR>', opts)
+--- Navigating
+map('n', '<leader>z', '<cmd>z.<CR>')
 
--- Search/Replace
-map('n', '<leader>/', '<cmd>noh<CR>', opts)
+--- Search/Replace
+map('n', '<leader>/', '<cmd>noh<CR>')
 
--- window splitting
-map('n', '<leader>v', '<cmd>vs<CR>', opts)
-map('n', '<leader>i', '<cmd>on<CR>', opts)
-map({ 'n', 'v', 'i' }, '<C-h>', '<cmd>wincmd h<CR>', opts)
-map({ 'n', 'v', 'i' }, '<C-j>', '<cmd>wincmd j<CR>', opts)
-map({ 'n', 'v', 'i' }, '<C-k>', '<cmd>wincmd k<CR>', opts)
-map({ 'n', 'v', 'i' }, '<C-l>', '<cmd>wincmd l<CR>', opts)
-
--- focus current split (Use `:q` to exit focus)
-map({ 'n', 'v' }, '<leader>f', '<cmd>tab sp<CR>', opts)
+--- window splitting
+map('n', '<leader>v', '<cmd>vs<CR>')
+map('n', '<leader>i', '<cmd>on<CR>')
+map({ 'n', 'v', 'i' }, '<C-h>', '<cmd>wincmd h<CR>')
+map({ 'n', 'v', 'i' }, '<C-j>', '<cmd>wincmd j<CR>')
+map({ 'n', 'v', 'i' }, '<C-k>', '<cmd>wincmd k<CR>')
+map({ 'n', 'v', 'i' }, '<C-l>', '<cmd>wincmd l<CR>')

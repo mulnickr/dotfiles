@@ -1,0 +1,67 @@
+{
+  "plugins": {
+    "carbide.nvim": {
+      "rev": "18e3b18f98e420f487171c3726cf83cd1c58e098",
+      "src": "https://github.com/ferdinandrau/carbide.nvim"
+    },
+    "mason.nvim": {
+      "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
+      "src": "https://github.com/williamboman/mason.nvim",
+      "version": "'v2.2.1'"
+    },
+    "mini.files": {
+      "rev": "5e0f0d264166e71d37ca35d84c54b1887ea76b40",
+      "src": "https://github.com/nvim-mini/mini.files"
+    },
+    "mini.notify": {
+      "rev": "ef35a3ec68399398f097d0c1736c343a45cb7406",
+      "src": "https://github.com/nvim-mini/mini.notify"
+    },
+    "mini.pairs": {
+      "rev": "30cf2f01c4aaa2033db67376b9924fa2442c05d6",
+      "src": "https://github.com/nvim-mini/mini.pairs"
+    },
+    "mini.pick": {
+      "rev": "975e398570dd15696575c5374f94e78fd29a7a69",
+      "src": "https://github.com/nvim-mini/mini.pick"
+    },
+    "mini.snippets": {
+      "rev": "5330cc759cc7f67ad6cc885ad509e3d989a5904e",
+      "src": "https://github.com/nvim-mini/mini.snippets"
+    },
+    "mini.statusline": {
+      "rev": "e9e5c147385e5e0310ab79162dd08d0465e96d83",
+      "src": "https://github.com/nvim-mini/mini.statusline"
+    },
+    "mini.surround": {
+      "rev": "990ce30f724d08e79670107de6b915a3f1bb9a9b",
+      "src": "https://github.com/nvim-mini/mini.surround"
+    },
+    "nvim-dap": {
+      "rev": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264",
+      "src": "https://github.com/mfussenegger/nvim-dap"
+    },
+    "nvim-dap-go": {
+      "rev": "b4421153ead5d726603b02743ea40cf26a51ed5f",
+      "src": "https://github.com/leoluz/nvim-dap-go"
+    },
+    "nvim-dap-view": {
+      "rev": "bfaf50b3f513f78d8ab3e5fe02128dda05be4945",
+      "src": "https://github.com/igorlfs/nvim-dap-view",
+      "version": "1.0.0 - 2.0.0"
+    },
+    "nvim-treesitter": {
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "nvim-web-devicons": {
+      "rev": "2795c26c916bb3c57dde308b82be51971fa92747",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
+    "one-small-step-for-vimkind": {
+      "rev": "1af6ffb9b5229a856e8090fa2f690e0931a5aace",
+      "src": "https://github.com/jbyuki/one-small-step-for-vimkind"
+    }
+  }
+}
