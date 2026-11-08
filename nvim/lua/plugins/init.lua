@@ -15,7 +15,7 @@ end
 ---Plugins from mini.nvim. Strings get a default `setup()`; tables carry their own config.
 local mini_plugins = {
   'mini.notify',
-  { 'mini.pick',      config = after('pick') },
+  { 'mini.pick',       config = after('pick') },
   { 'mini.files',      config = after('files') },
   { 'mini.statusline', config = after('statusline') },
   'mini.surround',
@@ -26,11 +26,30 @@ local mini_plugins = {
 ---Plugins formatted with internal `plugins.utils` methods to increase readability
 local plugin_list = pack.flatten({
   -- general
+  -- Previous colorscheme, kept for switching back:
+  -- pack.plugin({
+  --   'ferdinandrau/carbide.nvim',
+  --   config = function()
+  --     require('carbide').setup({ 'dark' })
+  --     vim.cmd.colorscheme('carbide-dark')
+  --   end,
+  -- }),
+  -- Catppuccin Mocha, matching the desktop (WezTerm, Hyprland, Waybar)
   pack.plugin({
-    'ferdinandrau/carbide.nvim',
+    'catppuccin/nvim',
+    name = 'catppuccin', -- the repo is just called "nvim"
     config = function()
-      require('carbide').setup({ 'dark' })
-      vim.cmd.colorscheme('carbide-dark')
+      require('catppuccin').setup({
+        flavour = 'mocha',
+        integrations = {
+          treesitter = true,
+          native_lsp = { enabled = true },
+          dap = true,
+          dap_ui = true,
+          mini = { enabled = true },
+        },
+      })
+      vim.cmd.colorscheme('catppuccin')
     end,
   }),
   pack.plugin('nvim-tree/nvim-web-devicons'),

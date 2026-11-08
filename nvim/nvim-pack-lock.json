@@ -4,6 +4,10 @@
       "rev": "18e3b18f98e420f487171c3726cf83cd1c58e098",
       "src": "https://github.com/ferdinandrau/carbide.nvim"
     },
+    "catppuccin": {
+      "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
+      "src": "https://github.com/catppuccin/nvim"
+    },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/williamboman/mason.nvim",
