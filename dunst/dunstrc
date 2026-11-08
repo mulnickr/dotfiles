@@ -23,14 +23,21 @@
     icon_position = left
     min_icon_size = 36
     max_icon_size = 72
+    # Dark icon theme first (has the full-color status icons), Adwaita as a fallback
+    icon_theme = "breeze-dark, Adwaita"
+    enable_recursive_icon_lookup = true
 
     markup = full
     format = "<b>%s</b>\n%b"
     alignment = left
     ellipsize = middle
     show_age_threshold = 60
-    progress_bar_frame_width = 0
+    progress_bar_frame_width = 1
     progress_bar_corner_radius = 3
+    # Full width (570 max width minus 2 x 18 padding) instead of the 150-300px default; dunst widens the notification to fit
+    progress_bar_height = 8
+    progress_bar_min_width = 534
+    progress_bar_max_width = 534
     highlight = "#89b4fa"
 
     mouse_left_click = do_action, close_current
