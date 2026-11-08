@@ -7,3 +7,10 @@ nvim/spell/
 
 # lazygit runtime state (if lazygit/ is added later)
 lazygit/state.yml
+
+# Wallpaper is rendered from hypr/wallpaper/generate.py (install.sh does it on a new machine)
+hypr/wallpaper/wallpaper.svg
+hypr/wallpaper/wallpaper.png
+
+# Python bytecode
+__pycache__/

@@ -1,7 +1,8 @@
 -- See https://wiki.hypr.land/configuring/core/binds/
 
 -- Programs
-local terminal    = "wezterm"
+-- Separate process per window, so a crash only closes that window
+local terminal    = "wezterm start --always-new-process"
 local fileManager = "dolphin"
 local menu        = "rofi -show drun"
 
@@ -31,22 +32,47 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("firefox"))
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("firefox -private-window"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
-hl.bind(mainMod .. " + J", hl.dsp.layout("movetoroot active"))
+hl.bind(mainMod .. " + O", hl.dsp.layout("movetoroot active"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 hl.bind(mainMod .. " + I", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + D", toggle_calendar) -- Google Calendar (see conf/calendar.lua)
 
--- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+-- Directions: vim keys (same as Neovim and WezTerm panes) and arrow keys both work
+local directions = {
+    { keys = { "h", "left" },  dir = "left",  dx = -1, dy = 0 },
+    { keys = { "j", "down" },  dir = "down",  dx = 0,  dy = 1 },
+    { keys = { "k", "up" },    dir = "up",    dx = 0,  dy = -1 },
+    { keys = { "l", "right" }, dir = "right", dx = 1,  dy = 0 },
+}
 
--- Move tiles
-hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.move({ direction = "left" }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
-hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
-hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
+for _, d in ipairs(directions) do
+    for _, key in ipairs(d.keys) do
+        -- Move focus
+        hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ direction = d.dir }))
+        -- Move tiles
+        hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ direction = d.dir }))
+    end
+end
+
+-- Resize mode: mainMod + ALT + R, then h/j/k/l or arrows (hold to repeat),
+-- SHIFT for bigger steps. Escape, Enter or mainMod + ALT + R again to leave.
+-- Waybar shows "resize" while it's active.
+local resizeStep = 40
+hl.bind(mainMod .. " + ALT + R", hl.dsp.submap("resize"))
+hl.define_submap("resize", function()
+    for _, d in ipairs(directions) do
+        for _, key in ipairs(d.keys) do
+            hl.bind(key, hl.dsp.window.resize({ x = d.dx * resizeStep, y = d.dy * resizeStep, relative = true }),
+                { repeating = true })
+            hl.bind("SHIFT + " .. key, hl.dsp.window.resize({ x = d.dx * resizeStep * 4, y = d.dy * resizeStep * 4, relative = true }),
+                { repeating = true })
+        end
+    end
+    hl.bind("escape",                 hl.dsp.submap("reset"))
+    hl.bind("Return",                 hl.dsp.submap("reset"))
+    hl.bind(mainMod .. " + ALT + R",  hl.dsp.submap("reset"))
+end)
 
 
 
@@ -98,16 +124,17 @@ hl.bind(mainMod .. " + CTRL + G",  hl.dsp.group.lock({ action = "toggle" }))
 -- Pop the active window out of its group
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.window.move({ out_of_group = true }))
 
--- Move the active window into the neighboring group in a direction
-hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.move({ into_group = "left" }))
-hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.move({ into_group = "right" }))
-hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.move({ into_group = "up" }))
-hl.bind(mainMod .. " + CTRL + down",  hl.dsp.window.move({ into_group = "down" }))
+-- Move the active window into the neighboring group in a direction (h/j/k/l or arrows)
+for _, d in ipairs(directions) do
+    for _, key in ipairs(d.keys) do
+        hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ into_group = d.dir }))
+    end
+end
 
 -- Cycle through the tabs of the active group
 hl.bind(mainMod .. " + TAB",         hl.dsp.group.next())
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.group.prev())
 
--- Reorder the active tab within its group
-hl.bind(mainMod .. " + ALT + left",  hl.dsp.group.move_window({ forward = false }))
-hl.bind(mainMod .. " + ALT + right", hl.dsp.group.move_window({ forward = true }))
+-- Reorder the active tab within its group (h/l or left/right)
+for _, key in ipairs({ "h", "left" })  do hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.group.move_window({ forward = false })) end
+for _, key in ipairs({ "l", "right" }) do hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.group.move_window({ forward = true })) end

@@ -1,0 +1,57 @@
+# Dunst notification daemon. Catppuccin Mocha, same palette as hypr/conf/colors.lua.
+# Reload after editing: dunstctl reload
+
+[global]
+    font = "JetBrainsMono Nerd Font 15"
+
+    # Top-right, lined up with Hyprland's outer gaps
+    origin = top-right
+    offset = (8, 8)
+    width = (375, 570)
+    height = (0, 300)
+    notification_limit = 5
+    gap_size = 6
+
+    padding = 15
+    horizontal_padding = 18
+    text_icon_padding = 15
+    frame_width = 1
+    corner_radius = 3
+    separator_height = 1
+    separator_color = frame
+
+    icon_position = left
+    min_icon_size = 36
+    max_icon_size = 72
+
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    ellipsize = middle
+    show_age_threshold = 60
+    progress_bar_frame_width = 0
+    progress_bar_corner_radius = 3
+    highlight = "#89b4fa"
+
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = close_all
+    mouse_right_click = close_current
+
+[urgency_low]
+    background = "#1e1e2e"
+    foreground = "#a6adc8"
+    frame_color = "#45475a"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#89b4fa"
+    timeout = 8
+
+[urgency_critical]
+    background = "#1e1e2e"
+    foreground = "#cdd6f4"
+    frame_color = "#f38ba8"
+    highlight = "#f38ba8"
+    timeout = 0

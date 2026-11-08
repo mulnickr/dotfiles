@@ -1,0 +1,98 @@
+/* Catppuccin Mocha (https://catppuccin.com/palette), same palette as hypr/conf/colors.lua.
+ * 1px blue border and 3px rounding match the Hyprland window borders. */
+
+* {
+    base:     #1e1e2e;
+    mantle:   #181825;
+    surface0: #313244;
+    surface1: #45475a;
+    overlay1: #7f849c;
+    text:     #cdd6f4;
+    blue:     #89b4fa;
+    red:      #f38ba8;
+
+    background-color: transparent;
+    text-color:       @text;
+}
+
+window {
+    width:            750px;
+    background-color: @base;
+    border:           1px;
+    border-color:     @blue;
+    border-radius:    3px;
+}
+
+mainbox {
+    padding:  12px;
+    spacing:  12px;
+    children: [ inputbar, message, listview ];
+}
+
+inputbar {
+    padding:          9px 12px;
+    spacing:          12px;
+    background-color: @mantle;
+    border-radius:    3px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @blue;
+}
+
+entry {
+    placeholder:       "Search";
+    placeholder-color: @overlay1;
+    cursor:            text;
+}
+
+message {
+    padding:          9px 12px;
+    background-color: @mantle;
+    border-radius:    3px;
+}
+
+listview {
+    lines:     8;
+    columns:   1;
+    spacing:   3px;
+    scrollbar: false;
+    fixed-height: false;
+}
+
+element {
+    padding:       8px 12px;
+    spacing:       12px;
+    border-radius: 3px;
+}
+
+element normal.normal,
+element alternate.normal {
+    text-color: @text;
+}
+
+element selected.normal {
+    background-color: @surface0;
+    text-color:       @blue;
+}
+
+element normal.urgent,
+element alternate.urgent,
+element selected.urgent {
+    text-color: @red;
+}
+
+element normal.active,
+element alternate.active {
+    text-color: @blue;
+}
+
+element-icon {
+    size: 27px;
+}
+
+element-text {
+    text-color:     inherit;
+    vertical-align: 0.5;
+}

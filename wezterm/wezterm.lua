@@ -2,20 +2,28 @@ local wezterm = require("wezterm")
 
 local is_windows = wezterm.target_triple:find("windows") ~= nil
 
+-- Catppuccin Mocha (https://catppuccin.com/palette), same palette as hypr/conf/colors.lua
+local c = {
+  text = "#cdd6f4", overlay1 = "#7f849c", surface0 = "#313244",
+  base = "#1e1e2e", mantle = "#181825", crust = "#11111b", blue = "#89b4fa", peach = "#fab387",
+}
+
 local config = {
   -- Windows only; elsewhere WezTerm uses the login shell
   default_prog = is_windows and { "powershell.exe" } or nil,
   audible_bell = "Disabled",
   check_for_updates = false,
-  -- color_scheme = "Builtin Solarized Dark",
-  color_scheme = "Ayu Mirage",
-  -- color_scheme = "Azu (Gogh)"
+  color_scheme = "Catppuccin Mocha",
+  colors = {
+    tab_bar = { background = c.mantle },
+  },
   inactive_pane_hsb = {
     hue = 1.0,
     saturation = 1.0,
     brightness = 0.7, -- 1.0
   },
-  font_size = 10,
+  -- Hyprland runs at scale 1 (was 1.5), so this is 1.5x the old 10
+  font_size = is_windows and 10 or 15,
   launch_menu = {},
   disable_default_key_bindings = true,
 
@@ -104,14 +112,16 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   local pane = tab.active_pane
   local title = pane.pane_id .. ': ' .. basename(pane.foreground_process_name)
 
-  local fg = 'gray'
+  local bg, fg = c.surface0, c.overlay1
   if tab.is_active then
-    fg = 'black'
+    bg, fg = c.blue, c.crust
+  elseif hover then
+    fg = c.text
   end
 
   return {
-    { Background = { Color = '#C9C3B8' } },
-    { Foreground = { Color = '#1C1C1C' } },
+    { Background = { Color = bg } },
+    { Foreground = { Color = fg } },
     { Text = ' ' .. title .. ' ' }
   }
 end)
@@ -122,8 +132,8 @@ wezterm.on('update-right-status', function(window, pane)
   local leader_icon = wezterm.nerdfonts.cod_flame
   -- wezterm.nerdfonts.magnifier_plus
   local leader_active = wezterm.format({
-    { Background = { Color = '#C9C3B8' } },
-    { Foreground = { Color = '#1C1C1C' } },
+    { Background = { Color = c.peach } },
+    { Foreground = { Color = c.crust } },
     { Text = ' ' .. leader_icon .. ' ' }
   })
 

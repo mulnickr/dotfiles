@@ -53,10 +53,27 @@ link() {
 link nvim    "$config/nvim"    nvim
 link wezterm "$config/wezterm" wezterm
 link hypr    "$config/hypr"    Hyprland hyprland
+link waybar  "$config/waybar"  waybar
+link rofi    "$config/rofi"    rofi
+link dunst   "$config/dunst"   dunst
+link gtk-3.0 "$config/gtk-3.0" gtk-launch
+link bash/.bashrc "$HOME/.bashrc" bash
 
 # ~/.config/wezterm/wezterm.lua takes precedence, so an old ~/.wezterm.lua is dead weight
 if [ -e "$repo/wezterm" ] && installed wezterm && [ -e "$HOME/.wezterm.lua" ]; then
   mv "$HOME/.wezterm.lua" "$HOME/.wezterm.lua.bak-$stamp"
   echo "  backed up $HOME/.wezterm.lua -> $HOME/.wezterm.lua.bak-$stamp"
   echo "  restart open WezTerm windows: they still watch the old file and will show a config error"
+fi
+
+# Render the wallpaper from its generator if it isn't there yet (the image isn't kept in git)
+wall="$repo/hypr/wallpaper"
+if installed Hyprland hyprland && [ -e "$wall/generate.py" ] && [ ! -e "$wall/wallpaper.png" ]; then
+  if installed python3 rsvg-convert; then
+    python3 "$wall/generate.py" >/dev/null &&
+      rsvg-convert -w 3840 -h 2160 "$wall/wallpaper.svg" -o "$wall/wallpaper.png" &&
+      echo "rendered $wall/wallpaper.png"
+  else
+    echo "skip    wallpaper (needs python3 and rsvg-convert from librsvg)"
+  fi
 fi

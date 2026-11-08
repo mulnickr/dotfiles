@@ -1,16 +1,18 @@
+local c = require("conf.colors")
+
 -- Refer to https://wiki.hypr.land/configuring/core/config-options/
 hl.config({
     general = {
-        gaps_in  = 2,
-        gaps_out = 5,
+        gaps_in  = 3,
+        gaps_out = 8,
 
         border_size = 1,
 
         col = {
             -- active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
             -- inactive_border = "rgba(595959aa)",
-            active_border   = "rgba(5ccfe690)",
-            inactive_border = "rgba(33415e80)",
+            active_border   = c.rgba("blue", "cc"),
+            inactive_border = c.rgba("surface1", "99"),
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -21,7 +23,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 2,
+        rounding       = 3,
         rounding_power = 2,
 
         -- Change transparency of focused and unfocused windows
@@ -30,9 +32,9 @@ hl.config({
 
         shadow = {
             enabled      = true,
-            range        = 4,
+            range        = 6,
             render_power = 3,
-            color        = 0xee1a1a1a,
+            color        = c.rgba("crust", "ee"),
         },
 
         blur = {
@@ -76,21 +78,24 @@ hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "
 hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "quick" })
 
--- Groups (tabbed windows): match the regular border colors
+-- Groups (tabbed windows): same colors as regular borders, peach when locked
 hl.config({
     group = {
         col = {
-            border_active          = "rgba(5ccfe690)",
-            border_inactive        = "rgba(33415e80)",
-            border_locked_active   = "rgba(e6a35c90)",
-            border_locked_inactive = "rgba(5e4a3380)",
+            border_active          = c.rgba("blue", "cc"),
+            border_inactive        = c.rgba("surface1", "99"),
+            border_locked_active   = c.rgba("peach", "cc"),
+            border_locked_inactive = c.rgba("surface1", "99"),
         },
         groupbar = {
+            font_family         = "JetBrainsMono Nerd Font",
+            text_color          = c.rgba("text"),
+            text_color_inactive = c.rgba("overlay1"),
             col = {
-                active          = "rgba(5ccfe690)",
-                inactive        = "rgba(33415e80)",
-                locked_active   = "rgba(e6a35c90)",
-                locked_inactive = "rgba(5e4a3380)",
+                active          = c.rgba("blue", "cc"),
+                inactive        = c.rgba("surface1", "cc"),
+                locked_active   = c.rgba("peach", "cc"),
+                locked_inactive = c.rgba("surface1", "cc"),
             },
         },
     },
