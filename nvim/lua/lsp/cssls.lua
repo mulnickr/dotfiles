@@ -10,5 +10,8 @@ return {
       -- GTK CSS (Waybar, GTK themes) uses @define-color and friends, which aren't standard CSS
       lint = { unknownAtRules = 'ignore' },
     },
+    -- Same settings for SCSS and Less, which the server configures separately
+    scss = { validate = true, lint = { unknownAtRules = 'ignore' } },
+    less = { validate = true, lint = { unknownAtRules = 'ignore' } },
   },
 }
