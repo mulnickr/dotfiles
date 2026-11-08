@@ -5,20 +5,25 @@
 # Uses directory junctions (no admin or Developer Mode needed).
 # Anything already at a target is renamed to <target>.bak-<timestamp>; nothing is deleted.
 # Safe to re-run: targets that already point at this repo are left alone.
+# Apps that aren't installed (no matching command on PATH) are skipped.
 
 $ErrorActionPreference = 'Stop'
 $repo = $PSScriptRoot
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 
 $links = @(
-  @{ Source = 'nvim';    Target = Join-Path $env:LOCALAPPDATA 'nvim' },
-  @{ Source = 'wezterm'; Target = Join-Path $HOME '.config\wezterm' }
+  @{ Source = 'nvim';    Command = 'nvim';    Target = Join-Path $env:LOCALAPPDATA 'nvim' },
+  @{ Source = 'wezterm'; Command = 'wezterm'; Target = Join-Path $HOME '.config\wezterm' }
 )
 
 # Old single-file configs that the links above replace
 $retire = @(
-  @{ Source = 'wezterm'; Path = Join-Path $HOME '.wezterm.lua' }
+  @{ Source = 'wezterm'; Command = 'wezterm'; Path = Join-Path $HOME '.wezterm.lua' }
 )
+
+function Test-Installed([string]$cmd) {
+  return [bool](Get-Command $cmd -ErrorAction SilentlyContinue)
+}
 
 function Backup-Path([string]$path) {
   $bak = "$path.bak-$stamp"
@@ -32,6 +37,10 @@ foreach ($l in $links) {
   $src = Join-Path $repo $l.Source
   $dst = $l.Target
   if (-not (Test-Path -LiteralPath $src)) { continue }
+  if (-not (Test-Installed $l.Command)) {
+    Write-Host "skip    $dst ($($l.Command) not installed)"
+    continue
+  }
 
   $item = Get-Item -LiteralPath $dst -Force -ErrorAction SilentlyContinue
   if ($item -and $item.LinkType -eq 'Junction' -and ([string]$item.Target).TrimEnd('\') -ieq $src.TrimEnd('\')) {
@@ -53,7 +62,7 @@ foreach ($l in $links) {
 }
 
 foreach ($r in $retire) {
-  if ((Test-Path -LiteralPath (Join-Path $repo $r.Source)) -and (Test-Path -LiteralPath $r.Path)) {
+  if ((Test-Path -LiteralPath (Join-Path $repo $r.Source)) -and (Test-Installed $r.Command) -and (Test-Path -LiteralPath $r.Path)) {
     Backup-Path $r.Path | Out-Null
     Write-Host "  restart open WezTerm windows: they still watch the old file and will show a config error"
   }

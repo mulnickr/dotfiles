@@ -7,6 +7,7 @@ require("conf.aesthetics")
 require("conf.layout")
 require("conf.input")
 require("conf.windowrules")
+require("conf.calendar")
 require("conf.keybinds")
 require("conf.autostart")
 

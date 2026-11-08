@@ -21,7 +21,8 @@ git clone https://github.com/mulnickr/dotfiles ~/dotfiles
 **Linux:** `~/dotfiles/install.sh` (symlinks)
 
 Both scripts move anything already at a target to `<target>.bak-<timestamp>` instead of
-deleting it, and can be re-run safely.
+deleting it, and can be re-run safely. Apps that aren't installed are skipped,
+so re-run the script after installing one.
 
 ## Adding a config
 
