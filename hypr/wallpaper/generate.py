@@ -14,6 +14,7 @@ Pick the landscape with an argument (default: SCENE below):
 
 Change SEED for different shapes. -o PATH writes the SVG somewhere else.
 """
+
 import argparse
 import math
 import random
@@ -44,8 +45,8 @@ TERRAIN_TILT = 35
 
 def mix(a, b, t):
     """Blend two hex colors; t=0 gives a, t=1 gives b."""
-    ca = [int(a[i:i + 2], 16) for i in (1, 3, 5)]
-    cb = [int(b[i:i + 2], 16) for i in (1, 3, 5)]
+    ca = [int(a[i : i + 2], 16) for i in (1, 3, 5)]
+    cb = [int(b[i : i + 2], 16) for i in (1, 3, 5)]
     return "#" + "".join(f"{round(x + (y - x) * t):02x}" for x, y in zip(ca, cb))
 
 
@@ -103,11 +104,14 @@ def mountain_ridge(rng, base_y, height, roughness, peaks=3):
     v = [(x - lo) / (hi - lo) for x in v]
 
     # Broad peaks so the range has a few clear summits rather than even noise
-    bumps = [(rng.uniform(0.05, 0.95), rng.uniform(0.08, 0.2), rng.uniform(0.5, 1.0)) for _ in range(peaks)]
+    bumps = [
+        (rng.uniform(0.05, 0.95), rng.uniform(0.08, 0.2), rng.uniform(0.5, 1.0))
+        for _ in range(peaks)
+    ]
     pts = []
     for i, x in enumerate(v):
         u = i / n
-        env = 0.35 + sum(a * math.exp(-((u - c) / w) ** 2) for c, w, a in bumps)
+        env = 0.35 + sum(a * math.exp(-(((u - c) / w) ** 2)) for c, w, a in bumps)
         X = -40 + u * (W + 80)
         pts.append((X, base_y - x * env * height))
     return pts
@@ -132,13 +136,18 @@ def pine(x, y, h, rng):
     tiers = rng.randint(4, 6)
     left, right = [], []
     for t in range(tiers + 1):
-        f = t / tiers                       # 0 at tip, 1 at base
+        f = t / tiers  # 0 at tip, 1 at base
         ty = y - h + f * h * 0.92
         tw = w * (0.12 + 0.88 * f) / 2
         jag = tw * rng.uniform(0.25, 0.45)  # notch between tiers
         left += [(x - tw, ty), (x - tw + jag, ty + 0.01)]
         right += [(x + tw, ty), (x + tw - jag, ty + 0.01)]
-    pts = [(x, y - h * 1.04)] + right[1:] + [(x + w * 0.06, y), (x - w * 0.06, y)] + list(reversed(left[1:]))
+    pts = (
+        [(x, y - h * 1.04)]
+        + right[1:]
+        + [(x + w * 0.06, y), (x - w * 0.06, y)]
+        + list(reversed(left[1:]))
+    )
     return "M" + " L".join(f"{px:.1f},{py:.1f}" for px, py in pts) + " Z"
 
 
@@ -151,7 +160,8 @@ def layer_gradient(i, top, bottom, color):
 
 
 def sky_and_moon(rng, horizon):
-    parts = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+    parts = [
+        f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <defs>
   <linearGradient id="sky" x1="0" y1="0" x2="0" y2="{horizon:.0f}" gradientUnits="userSpaceOnUse">
     {smooth_stops([CRUST, mix(CRUST, BASE, 0.6), BASE, HORIZON_SKY])}
@@ -172,7 +182,8 @@ def sky_and_moon(rng, horizon):
   </filter>
 </defs>
 <rect width="{W}" height="{H}" fill="url(#sky)"/>
-<rect width="{W}" height="{H}" fill="url(#haze)"/>''']
+<rect width="{W}" height="{H}" fill="url(#haze)"/>'''
+    ]
 
     # Faint stars, thinning toward the horizon and kept off the moon
     for _ in range(70):
@@ -181,11 +192,15 @@ def sky_and_moon(rng, horizon):
             continue
         r = rng.uniform(1.0, 2.4)
         o = rng.uniform(0.12, 0.45) * (1 - y / (H * 0.6))
-        parts.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r:.1f}" fill="{ROSEWATER}" opacity="{o:.2f}"/>')
+        parts.append(
+            f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r:.1f}" fill="{ROSEWATER}" opacity="{o:.2f}"/>'
+        )
 
     # Halo: soft falloff around the moon, then the crescent itself
     parts.append(f'<circle cx="{MOON_X}" cy="{MOON_Y}" r="{MOON_R * 5}" fill="url(#halo)"/>')
-    parts.append(f'<circle cx="{MOON_X}" cy="{MOON_Y}" r="{MOON_R}" fill="{ROSEWATER}" opacity="0.95" mask="url(#crescent)"/>')
+    parts.append(
+        f'<circle cx="{MOON_X}" cy="{MOON_Y}" r="{MOON_R}" fill="{ROSEWATER}" opacity="0.95" mask="url(#crescent)"/>'
+    )
     return parts
 
 
@@ -196,7 +211,10 @@ def extrema(pts, min_drop, smooth=6):
     """
     ys = [p[1] for p in pts]
     k = smooth
-    sm = [sum(ys[max(0, i - k):i + k + 1]) / len(ys[max(0, i - k):i + k + 1]) for i in range(len(ys))]
+    sm = [
+        sum(ys[max(0, i - k) : i + k + 1]) / len(ys[max(0, i - k) : i + k + 1])
+        for i in range(len(ys))
+    ]
     res, trend = [], None
     hi = lo = 0
     for i in range(len(sm)):
@@ -204,10 +222,14 @@ def extrema(pts, min_drop, smooth=6):
             hi = i
         if trend != "up" and sm[i] > sm[lo]:
             lo = i
-        if trend != "down" and sm[i] - sm[hi] > min_drop:     # fell far enough below a peak
-            res.append((hi, "peak")); trend = "down"; lo = i
-        elif trend != "up" and sm[lo] - sm[i] > min_drop:     # rose far enough above a valley
-            res.append((lo, "valley")); trend = "up"; hi = i
+        if trend != "down" and sm[i] - sm[hi] > min_drop:  # fell far enough below a peak
+            res.append((hi, "peak"))
+            trend = "down"
+            lo = i
+        elif trend != "up" and sm[lo] - sm[i] > min_drop:  # rose far enough above a valley
+            res.append((lo, "valley"))
+            trend = "up"
+            hi = i
     return res
 
 
@@ -227,8 +249,10 @@ def mountain_details(i, pts, base, h, color, snow, rng):
             # with a few narrow tongues of snow running down gullies
             depth = h * rng.uniform(0.07, 0.09)
             reach = W * rng.uniform(0.035, 0.05)
-            tongues = [(px + rng.uniform(-1, 1) * reach * 0.8, rng.uniform(3, 7), rng.uniform(0.25, 0.7))
-                       for _ in range(rng.randint(5, 9))]
+            tongues = [
+                (px + rng.uniform(-1, 1) * reach * 0.8, rng.uniform(3, 7), rng.uniform(0.25, 0.7))
+                for _ in range(rng.randint(5, 9))
+            ]
             waves = [(rng.uniform(0, 6.3), rng.uniform(0.01, 0.03)) for _ in range(2)]
             cap = []
             for j in range(len(pts)):
@@ -238,7 +262,9 @@ def mountain_details(i, pts, base, h, color, snow, rng):
                     continue
                 thick = depth * (1 - u * u) ** 1.5
                 thick *= 1 + 0.25 * sum(math.sin(x * f + ph) for ph, f in waves) / 2
-                thick += sum(depth * a * math.exp(-abs(x - c) / w) for c, w, a in tongues) * (1 - u * u)
+                thick += sum(depth * a * math.exp(-abs(x - c) / w) for c, w, a in tongues) * (
+                    1 - u * u
+                )
                 # Only where the ridge is near the summit's height (no snow down in saddles)
                 if y - py > depth * 2.2:
                     thick = 0
@@ -250,7 +276,9 @@ def mountain_details(i, pts, base, h, color, snow, rng):
   <stop offset="0" stop-color="{snow_col}" stop-opacity="0.95"/>
   <stop offset="1" stop-color="{snow_col}" stop-opacity="0.4"/>
 </linearGradient>''')
-            shapes.append(f'<path d="M{" L".join(f"{x:.1f},{y:.1f}" for x, y in poly)} Z" fill="url(#snow{i}_{m})"/>')
+            shapes.append(
+                f'<path d="M{" L".join(f"{x:.1f},{y:.1f}" for x, y in poly)} Z" fill="url(#snow{i}_{m})"/>'
+            )
 
     return defs, shapes
 
@@ -264,9 +292,9 @@ def terrain_filter(fid, seed, h, azimuth):
     tint on faces away from it. Callers rotate the filtered group so "y" runs down the slope;
     `azimuth` is the light direction in that rotated frame.
     """
-    lr, lg, lb = (int(LAVENDER[n:n + 2], 16) / 255 for n in (1, 3, 5))
-    cr, cg, cb = (int(CRUST[n:n + 2], 16) / 255 for n in (1, 3, 5))
-    flat = 0.64          # lighting value of a flat surface (sin of the light elevation, 40 deg)
+    lr, lg, lb = (int(LAVENDER[n : n + 2], 16) / 255 for n in (1, 3, 5))
+    cr, cg, cb = (int(CRUST[n : n + 2], 16) / 255 for n in (1, 3, 5))
+    flat = 0.64  # lighting value of a flat surface (sin of the light elevation, 40 deg)
     lit_k, shade_k = TERRAIN_LIGHT, TERRAIN_SHADE
     return f'''<filter id="{fid}" color-interpolation-filters="sRGB">
   <feTurbulence type="fractalNoise" baseFrequency="0.0011 0.0008" numOctaves="2" seed="{seed * 2}" result="broad"/>
@@ -292,7 +320,9 @@ def terrain_zones(i, pts, bottom, h):
     there's no visible seam. Returns (defs, shapes).
     """
     defs, shapes = [], []
-    summits = [m for m, t in extrema(pts, h * 0.12) if t == "peak"] or [min(range(len(pts)), key=lambda j: pts[j][1])]
+    summits = [m for m, t in extrema(pts, h * 0.12) if t == "peak"] or [
+        min(range(len(pts)), key=lambda j: pts[j][1])
+    ]
     xs = [pts[m][0] for m in summits]
     mids = [(a + b) / 2 for a, b in zip(xs, xs[1:])]
     lo, hi = pts[0][0], pts[-1][0]
@@ -300,7 +330,7 @@ def terrain_zones(i, pts, bottom, h):
     fade = W * 0.025
     zones = []
     for k, m in enumerate(summits):
-        zones.append((edges[k], xs[k], TERRAIN_TILT, m))       # left of the summit: grain down-left
+        zones.append((edges[k], xs[k], TERRAIN_TILT, m))  # left of the summit: grain down-left
         zones.append((xs[k], edges[k + 1], -TERRAIN_TILT, m))  # right of it: grain down-right
     for z, (a, b, ang, m) in enumerate(zones):
         sx, sy = pts[m]
@@ -312,16 +342,25 @@ def terrain_zones(i, pts, bottom, h):
         span = b0 - a0
         ramp_in = [(0, 1)] if a <= lo else [(0, 0), (min(2 * fade / span, 0.5), 1)]
         ramp_out = [(1, 1)] if b >= hi else [(max(1 - 2 * fade / span, 0.5), 1), (1, 0)]
-        stops = "".join(f'<stop offset="{o:.3f}" stop-color="white" stop-opacity="{v}"/>' for o, v in ramp_in + ramp_out)
+        stops = "".join(
+            f'<stop offset="{o:.3f}" stop-color="white" stop-opacity="{v}"/>'
+            for o, v in ramp_in + ramp_out
+        )
         zid = f"t{i}_{z}"
-        defs.append(f'<linearGradient id="{zid}g" x1="{a0:.0f}" y1="0" x2="{b0:.0f}" y2="0" gradientUnits="userSpaceOnUse">{stops}</linearGradient>')
-        defs.append(f'<mask id="{zid}m" maskUnits="userSpaceOnUse" x="{a0:.0f}" y="0" width="{span:.0f}" height="{H}">'
-                    f'<rect x="{a0:.0f}" y="0" width="{span:.0f}" height="{H}" fill="url(#{zid}g)"/></mask>')
+        defs.append(
+            f'<linearGradient id="{zid}g" x1="{a0:.0f}" y1="0" x2="{b0:.0f}" y2="0" gradientUnits="userSpaceOnUse">{stops}</linearGradient>'
+        )
+        defs.append(
+            f'<mask id="{zid}m" maskUnits="userSpaceOnUse" x="{a0:.0f}" y="0" width="{span:.0f}" height="{H}">'
+            f'<rect x="{a0:.0f}" y="0" width="{span:.0f}" height="{H}" fill="url(#{zid}g)"/></mask>'
+        )
         # Light comes from up-right (azimuth 320); in the rotated frame that shifts by -ang
         defs.append(terrain_filter(f"{zid}f", SEED * 10 + i * 7 + z, h, 320 - ang))
-        shapes.append(f'<g mask="url(#{zid}m)"><g transform="rotate({ang} {sx:.0f} {sy:.0f})">'
-                      f'<g filter="url(#{zid}f)"><g transform="rotate({-ang} {sx:.0f} {sy:.0f})">'
-                      f'<path d="{closed(sub, bottom)}"/></g></g></g></g>')
+        shapes.append(
+            f'<g mask="url(#{zid}m)"><g transform="rotate({ang} {sx:.0f} {sy:.0f})">'
+            f'<g filter="url(#{zid}f)"><g transform="rotate({-ang} {sx:.0f} {sy:.0f})">'
+            f'<path d="{closed(sub, bottom)}"/></g></g></g></g>'
+        )
     return defs, shapes
 
 
@@ -338,8 +377,15 @@ def range_layers(rng, specs, bottom, snow=(2, 1, 0)):
         defs.append(layer_gradient(i, top, y + h * 0.6, color))
         defs.append(f'<clipPath id="clip{i}"><path d="{closed(pts, bottom)}"/></clipPath>')
         # Details use their own random stream, so the ridge shapes stay the same as before
-        d_defs, d_shapes = mountain_details(i, pts, min(y + h * 0.2, bottom), h, color,
-                                            snow[i] if i < len(snow) else 0, random.Random(SEED * 100 + i))
+        d_defs, d_shapes = mountain_details(
+            i,
+            pts,
+            min(y + h * 0.2, bottom),
+            h,
+            color,
+            snow[i] if i < len(snow) else 0,
+            random.Random(SEED * 100 + i),
+        )
         defs += d_defs
         shapes.append(f'<path d="{closed(pts, bottom)}" fill="url(#r{i})"/>')
         shapes.append(f'<g clip-path="url(#clip{i})">{"".join(d_shapes)}</g>')
@@ -359,21 +405,32 @@ def range_layers(rng, specs, bottom, snow=(2, 1, 0)):
 
 def mist_rect(i, top, bottom, color):
     """A band of the layer's own color, transparent at the top and ~35% at the bottom."""
-    return ((f'<linearGradient id="mist{i}" x1="0" y1="{top:.0f}" x2="0" y2="{bottom:.0f}" gradientUnits="userSpaceOnUse">'
-             + "".join(f'<stop offset="{t / 8:.3f}" stop-color="{color}" stop-opacity="{0.35 * (t / 8) ** 2 * (3 - 2 * t / 8):.3f}"/>' for t in range(9))
-             + '</linearGradient>'),
-            f'<rect x="0" y="{top:.0f}" width="{W}" height="{bottom - top:.0f}" fill="url(#mist{i})"/>')
+    return (
+        (
+            f'<linearGradient id="mist{i}" x1="0" y1="{top:.0f}" x2="0" y2="{bottom:.0f}" gradientUnits="userSpaceOnUse">'
+            + "".join(
+                f'<stop offset="{t / 8:.3f}" stop-color="{color}" stop-opacity="{0.35 * (t / 8) ** 2 * (3 - 2 * t / 8):.3f}"/>'
+                for t in range(9)
+            )
+            + "</linearGradient>"
+        ),
+        f'<rect x="0" y="{top:.0f}" width="{W}" height="{bottom - top:.0f}" fill="url(#mist{i})"/>',
+    )
 
 
 def scene_mountains(rng):
     parts = sky_and_moon(rng, H * 0.70)
-    layers, _, _ = range_layers(rng, [
-        (H * 0.66, 520, 0.42, RANGE[0]),
-        (H * 0.74, 440, 0.48, RANGE[1]),
-        (H * 0.82, 360, 0.52, RANGE[2]),
-        (H * 0.92, 260, 0.56, RANGE[3]),
-        (H * 1.02, 220, 0.58, RANGE[4]),
-    ], H)
+    layers, _, _ = range_layers(
+        rng,
+        [
+            (H * 0.66, 520, 0.42, RANGE[0]),
+            (H * 0.74, 440, 0.48, RANGE[1]),
+            (H * 0.82, 360, 0.52, RANGE[2]),
+            (H * 0.92, 260, 0.56, RANGE[3]),
+            (H * 1.02, 220, 0.58, RANGE[4]),
+        ],
+        H,
+    )
     return parts + layers
 
 
@@ -382,7 +439,7 @@ def scene_lake(rng):
     parts = sky_and_moon(rng, horizon)
     specs = [
         (horizon - 20, 560, 0.42, RANGE[0]),
-        (horizon + 5,  380, 0.48, RANGE[1]),
+        (horizon + 5, 380, 0.48, RANGE[1]),
         (horizon + 15, 200, 0.52, RANGE[2]),
     ]
     layers, ridges, shapes = range_layers(rng, specs, horizon + 2)
@@ -398,7 +455,9 @@ def scene_lake(rng):
 <radialGradient id="moonpath" cx="0.5" cy="0" r="1">
     {falloff_stops(ROSEWATER, 0.10, sharpness=3.0)}
 </radialGradient>''')
-    parts.append(f'<rect x="0" y="{horizon:.0f}" width="{W}" height="{H - horizon:.0f}" fill="url(#water)"/>')
+    parts.append(
+        f'<rect x="0" y="{horizon:.0f}" width="{W}" height="{H - horizon:.0f}" fill="url(#water)"/>'
+    )
 
     # Ripples: the water is split into depth bands; each band gets a displacement filter that
     # shifts thin horizontal slices sideways. Bands nearer the shore have finer, smaller
@@ -422,7 +481,10 @@ def scene_lake(rng):
 
     def rippled(content):
         """Draw the same content once per depth band, each clipped to its band and rippled."""
-        return [f'<g clip-path="url(#band{b})"><g filter="url(#ripple{b})">{content}</g></g>' for b in range(len(bands))]
+        return [
+            f'<g clip-path="url(#band{b})"><g filter="url(#ripple{b})">{content}</g></g>'
+            for b in range(len(bands))
+        ]
 
     # Mirrored ranges: clearly darker than the real ones and pulled toward the water color,
     # the way water absorbs part of what it reflects
@@ -430,14 +492,17 @@ def scene_lake(rng):
     # out = (0.75 * c + 0.25 * water) * (1 - d) + crust * d, applied to the full detailed ranges
     d = REFLECT_DARKEN
     k = 0.75 * (1 - d)
-    wc = [int(water_top[n:n + 2], 16) / 255 for n in (1, 3, 5)]
-    cc = [int(CRUST[n:n + 2], 16) / 255 for n in (1, 3, 5)]
+    wc = [int(water_top[n : n + 2], 16) / 255 for n in (1, 3, 5)]
+    cc = [int(CRUST[n : n + 2], 16) / 255 for n in (1, 3, 5)]
     off = [0.25 * (1 - d) * w + d * c for w, c in zip(wc, cc)]
     parts.append(f'''<filter id="reflect" filterUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}" color-interpolation-filters="sRGB">
   <feColorMatrix values="{k:.4f} 0 0 0 {off[0]:.4f}  0 {k:.4f} 0 0 {off[1]:.4f}  0 0 {k:.4f} 0 {off[2]:.4f}  0 0 0 1 0"/>
 </filter>''')
-    mirror = (f'<g filter="url(#reflect)"><g transform="translate(0,{2 * horizon:.0f}) scale(1,-1)">'
-              + shapes + "</g></g>")
+    mirror = (
+        f'<g filter="url(#reflect)"><g transform="translate(0,{2 * horizon:.0f}) scale(1,-1)">'
+        + shapes
+        + "</g></g>"
+    )
     parts += rippled(mirror)
 
     # Wave lines catching a little sky light, spaced like the ripple bands (tight near the shore)
@@ -449,7 +514,9 @@ def scene_lake(rng):
         x = rng.uniform(-300, W)
         th = 1.2 + 3.5 * f
         o = rng.uniform(0.25, 0.6) * (1 - 0.5 * f)
-        parts.append(f'<rect x="{x:.0f}" y="{y:.0f}" width="{w:.0f}" height="{th:.1f}" rx="{th / 2:.1f}" fill="{wave}" opacity="{o:.2f}"/>')
+        parts.append(
+            f'<rect x="{x:.0f}" y="{y:.0f}" width="{w:.0f}" height="{th:.1f}" rx="{th / 2:.1f}" fill="{wave}" opacity="{o:.2f}"/>'
+        )
 
     # Reflection fades into deep water toward the bottom, faster than before
     parts.append(f'''<linearGradient id="deep" x1="0" y1="{horizon:.0f}" x2="0" y2="{H}" gradientUnits="userSpaceOnUse">
@@ -458,36 +525,48 @@ def scene_lake(rng):
   <stop offset="0.5"  stop-color="{CRUST}" stop-opacity="0.6"/>
   <stop offset="1"    stop-color="{CRUST}" stop-opacity="0.88"/>
 </linearGradient>''')
-    parts.append(f'<rect x="0" y="{horizon:.0f}" width="{W}" height="{depth:.0f}" fill="url(#deep)"/>')
+    parts.append(
+        f'<rect x="0" y="{horizon:.0f}" width="{W}" height="{depth:.0f}" fill="url(#deep)"/>'
+    )
 
     # Moonlight on the water: a soft column of light plus scattered glints, rippled like the reflection
     col_h = depth * 0.95
-    glints = [f'<ellipse cx="{MOON_X:.0f}" cy="{horizon:.0f}" rx="{MOON_R * 5:.0f}" ry="{col_h:.0f}" fill="url(#moonpath)"/>']
+    glints = [
+        f'<ellipse cx="{MOON_X:.0f}" cy="{horizon:.0f}" rx="{MOON_R * 5:.0f}" ry="{col_h:.0f}" fill="url(#moonpath)"/>'
+    ]
     for _ in range(140):
-        f = rng.random() ** 1.3                    # 0 at the shore, 1 near the viewer
+        f = rng.random() ** 1.3  # 0 at the shore, 1 near the viewer
         y = horizon + 8 + (depth - 40) * f
         spread = 12 + 150 * f
         x = MOON_X + rng.gauss(0, spread * 0.45)
         w = rng.uniform(0.3, 1.0) * (16 + 150 * f)
-        fade = math.exp(-((x - MOON_X) / spread) ** 2)   # dimmer toward the edges of the path
+        fade = math.exp(-(((x - MOON_X) / spread) ** 2))  # dimmer toward the edges of the path
         o = (0.55 - 0.40 * f) * fade * rng.uniform(0.35, 1.0)
         th = 1.5 + 4 * f
-        glints.append(f'<rect x="{x - w / 2:.0f}" y="{y:.0f}" width="{w:.0f}" height="{th:.1f}" rx="{th / 2:.1f}" fill="{ROSEWATER}" opacity="{o:.2f}"/>')
+        glints.append(
+            f'<rect x="{x - w / 2:.0f}" y="{y:.0f}" width="{w:.0f}" height="{th:.1f}" rx="{th / 2:.1f}" fill="{ROSEWATER}" opacity="{o:.2f}"/>'
+        )
     parts += rippled('<g filter="url(#soft)">' + "".join(glints) + "</g>")
 
     # Soft shoreline: barely-there light where water meets the far shore
-    parts.append(f'<rect x="0" y="{horizon - 1:.0f}" width="{W}" height="3" fill="{LAVENDER}" opacity="0.04" filter="url(#soft)"/>')
+    parts.append(
+        f'<rect x="0" y="{horizon - 1:.0f}" width="{W}" height="3" fill="{LAVENDER}" opacity="0.04" filter="url(#soft)"/>'
+    )
     return parts
 
 
 def scene_forest(rng):
     haze = HORIZON_SKY
     parts = sky_and_moon(rng, H * 0.72)
-    layers, _, _ = range_layers(rng, [
-        (H * 0.66, 500, 0.42, RANGE[0]),
-        (H * 0.74, 400, 0.48, RANGE[1]),
-        (H * 0.82, 300, 0.50, RANGE[2]),
-    ], H)
+    layers, _, _ = range_layers(
+        rng,
+        [
+            (H * 0.66, 500, 0.42, RANGE[0]),
+            (H * 0.74, 400, 0.48, RANGE[1]),
+            (H * 0.82, 300, 0.50, RANGE[2]),
+        ],
+        H,
+    )
     parts += layers
 
     # Low mist over the valley floor
@@ -496,13 +575,17 @@ def scene_forest(rng):
   <stop offset="0.6" stop-color="{haze}" stop-opacity="0.18"/>
   <stop offset="1"   stop-color="{haze}" stop-opacity="0"/>
 </linearGradient>''')
-    parts.append(f'<rect x="0" y="{H * 0.70:.0f}" width="{W}" height="{H * 0.20:.0f}" fill="url(#mist)"/>')
+    parts.append(
+        f'<rect x="0" y="{H * 0.70:.0f}" width="{W}" height="{H * 0.20:.0f}" fill="url(#mist)"/>'
+    )
 
     # Two treelines on rolling ground: a hazier far one and a near silhouette
-    for depth, (base, hill, hmin, hmax, gap, color) in enumerate([
-        (H * 0.90, 70, 70, 170, (20, 45), RANGE[3]),
-        (H * 1.00, 110, 140, 330, (35, 80), RANGE[4]),
-    ]):
+    for depth, (base, hill, hmin, hmax, gap, color) in enumerate(
+        [
+            (H * 0.90, 70, 70, 170, (20, 45), RANGE[3]),
+            (H * 1.00, 110, 140, 330, (35, 80), RANGE[4]),
+        ]
+    ):
         ground = mountain_ridge(rng, base, hill, 0.35, peaks=2)
         trees = []
         x = -30

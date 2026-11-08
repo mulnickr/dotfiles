@@ -1,0 +1,10 @@
+# Formatter settings (shfmt reads this; prettier and ruff have their own config files)
+root = true
+
+[*.sh]
+indent_style = space
+indent_size = 2
+
+[.bashrc]
+indent_style = space
+indent_size = 2

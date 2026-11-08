@@ -1,29 +1,29 @@
 @import "colors.css";
 
 * {
-    font-family: "JetBrainsMono Nerd Font", sans-serif;
-    font-size: 18px;
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 18px;
 }
 
 window#waybar {
-    background-color: alpha(@base, 0.85);
-    color: @text;
+  background-color: alpha(@base, 0.85);
+  color: @text;
 }
 
 tooltip {
-    background-color: @base;
-    border: 1px solid @blue;
-    border-radius: 3px;
+  background-color: @base;
+  border: 1px solid @blue;
+  border-radius: 3px;
 }
 
 tooltip label {
-    color: @text;
+  color: @text;
 }
 
 #waybar .module {
-    padding-left: 4px;
-    padding-right: 4px;
-    margin: 0 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin: 0 6px;
 }
 
 #workspaces button,
@@ -32,67 +32,67 @@ tooltip label {
 #network,
 #bluetooth,
 #pulseaudio {
-    padding: 0 6px;
+  padding: 0 6px;
 }
 
 /* Workspaces: dim when inactive, accent underline on the focused one (matches the active window border) */
 #workspaces button {
-    color: @overlay1;
-    border-radius: 0;
-    border-bottom: 3px solid transparent;
+  color: @overlay1;
+  border-radius: 0;
+  border-bottom: 3px solid transparent;
 }
 
 #workspaces button:hover {
-    background: @surface0;
-    color: @text;
+  background: @surface0;
+  color: @text;
 }
 
 #workspaces button.active {
-    color: @text;
-    font-weight: bold;
-    border-bottom-color: @blue;
+  color: @text;
+  font-weight: bold;
+  border-bottom-color: @blue;
 }
 
 #workspaces button.urgent {
-    color: @red;
+  color: @red;
 }
 
 #clock {
-    padding: 0 15px;
-    color: @yellow;
+  padding: 0 15px;
+  color: @yellow;
 }
 
 #pulseaudio.muted {
-    color: @overlay1;
+  color: @overlay1;
 }
 
 #battery.charging,
 #battery.plugged {
-    color: @green;
+  color: @green;
 }
 
 #battery.warning {
-    color: @peach;
+  color: @peach;
 }
 
 #battery.critical {
-    color: @red;
+  color: @red;
 }
 
 #custom-power {
-    color: @red;
+  color: @red;
 }
 
 /* Shown only while a Hyprland submap is active (e.g. resize mode, SUPER + ALT + R) */
 #submap {
-    color: @crust;
-    background-color: @peach;
-    padding: 0 9px;
+  color: @crust;
+  background-color: @peach;
+  padding: 0 9px;
 }
 
 #network.disconnected,
 #network.disabled,
 #bluetooth.off,
 #bluetooth.disabled {
-    color: @overlay1;
+  color: @overlay1;
 }

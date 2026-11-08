@@ -50,12 +50,12 @@ link() {
   echo "linked  $dst -> $src"
 }
 
-link nvim    "$config/nvim"    nvim
+link nvim "$config/nvim" nvim
 link wezterm "$config/wezterm" wezterm
-link hypr    "$config/hypr"    Hyprland hyprland
-link waybar  "$config/waybar"  waybar
-link rofi    "$config/rofi"    rofi
-link dunst   "$config/dunst"   dunst
+link hypr "$config/hypr" Hyprland hyprland
+link waybar "$config/waybar" waybar
+link rofi "$config/rofi" rofi
+link dunst "$config/dunst" dunst
 link gtk-3.0 "$config/gtk-3.0" gtk-launch
 link bash/.bashrc "$HOME/.bashrc" bash
 

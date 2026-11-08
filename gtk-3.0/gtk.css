@@ -1,12 +1,12 @@
-headerbar, titlebar {
-    min-height: 36px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+headerbar,
+titlebar {
+  min-height: 36px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 headerbar entry,
 headerbar button {
-    min-height: 30px;
-    padding: 3px 6px;
+  min-height: 30px;
+  padding: 3px 6px;
 }
-
