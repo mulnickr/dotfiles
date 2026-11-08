@@ -8,7 +8,9 @@
     "hyprland/submap"
     // "hyprland/window"
   ],
-  "modules-center": ["clock"],
+  "modules-center": [
+    "clock"
+  ],
   "modules-right": [
     "pulseaudio",
     "memory",
@@ -22,7 +24,12 @@
     "format-ethernet": "󰈀",
     "format-disconnected": "󰤮",
     "format-disabled": "󰖪",
-    "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
+    "format-icons": [
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
     "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
     "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
     "tooltip-format-disconnected": "Not connected",
@@ -56,7 +63,11 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", ""]
+      "default": [
+        "",
+        "",
+        ""
+      ]
     },
     "on-click": "pavucontrol"
   },
@@ -86,7 +97,13 @@
     "format-plugged": "{capacity}% ",
     "format-full": "{capacity}% {icon}",
     "format-alt": "{time} {icon}",
-    "format-icons": ["", "", "", "", ""]
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
   },
   "custom/power": {
     "format": "⏻ ",

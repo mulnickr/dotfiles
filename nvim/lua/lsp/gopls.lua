@@ -1,8 +1,8 @@
 return {
   name = 'gopls',
-  cmd = { "gopls" },
-  filetypes = { "go", "gomod", "gowork" },
-  root_markers = { ".git", "go.sum", "go.work" },
+  cmd = { 'gopls' },
+  filetypes = { 'go', 'gomod', 'gowork' },
+  root_markers = { '.git', 'go.sum', 'go.work' },
   settings = {
     gopls = {
       analyses = {

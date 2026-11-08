@@ -1,9 +1,9 @@
-local utils = require("utils")
+local utils = require('utils')
 
 ---Build lsp_configs table from file names
 local lsp_configs = {}
 for _, f in pairs(vim.api.nvim_get_runtime_file('lua/lsp/*.lua', true)) do
-  local server_name = vim.fn.fnamemodify(f, ":t:r")
+  local server_name = vim.fn.fnamemodify(f, ':t:r')
   table.insert(lsp_configs, server_name)
 end
 
@@ -24,30 +24,30 @@ local key_map = function(bufnr)
     return vim.tbl_extend('force', { buffer = bufnr }, o)
   end
 
-  map(modes, '<leader>ee', vim.diagnostic.open_float, ext({ desc = "Open Diagnostics" }))
-  map(modes, '<leader>d', vim.lsp.buf.definition, ext({ desc = "Definitions" }))
-  map(modes, '<leader>A', vim.lsp.buf.implementation, ext({ desc = "Implementation" }))
-  map(modes, '<leader>a', vim.lsp.buf.hover, ext({ desc = "Hover Information" }))
+  map(modes, '<leader>ee', vim.diagnostic.open_float, ext({ desc = 'Open Diagnostics' }))
+  map(modes, '<leader>d', vim.lsp.buf.definition, ext({ desc = 'Definitions' }))
+  map(modes, '<leader>A', vim.lsp.buf.implementation, ext({ desc = 'Implementation' }))
+  map(modes, '<leader>a', vim.lsp.buf.hover, ext({ desc = 'Hover Information' }))
 
-  map(modes, '<leader>K', function() require("internal.codeactions").run() end,
-    ext({ desc = "Code Actions" }))
-  map({ 'n', 'i' }, '<C-K>', vim.lsp.buf.signature_help, ext({ desc = "Signature Help" }))
-  map(modes, '<leader>r', vim.lsp.buf.rename, ext({ desc = "Rename" }))
+  map(modes, '<leader>K', function()
+    require('internal.codeactions').run()
+  end, ext({ desc = 'Code Actions' }))
+  map({ 'n', 'i' }, '<C-K>', vim.lsp.buf.signature_help, ext({ desc = 'Signature Help' }))
+  map(modes, '<leader>r', vim.lsp.buf.rename, ext({ desc = 'Rename' }))
   map(modes, '<leader>F', function(_)
     vim.lsp.buf.format({ async = true })
-  end, ext({ desc = "Format" }))
+  end, ext({ desc = 'Format' }))
 
   map('i', '<Tab>', function(_)
-      if vim.fn.pumvisible() == 1 then
-        return '<C-y>'
-      else
-        return '<Tab>'
-      end
-    end,
-    ext({ expr = true, desc = "Autocomplete" }))
+    if vim.fn.pumvisible() == 1 then
+      return '<C-y>'
+    else
+      return '<Tab>'
+    end
+  end, ext({ expr = true, desc = 'Autocomplete' }))
 end
 
-vim.api.nvim_create_autocmd("LspAttach", {
+vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('user_lsp', { clear = true }),
   callback = function(event)
     key_map(event.buf)
@@ -57,9 +57,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       autotrigger = true,
       convert = function(item)
         return { abbr = item.label:gsub('%b()', '') }
-      end
+      end,
     })
-  end
+  end,
 })
 
 vim.diagnostic.config({

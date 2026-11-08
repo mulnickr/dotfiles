@@ -37,11 +37,11 @@ dv.setup({
 })
 
 local signs = {
-  DapBreakpoint          = { text = '●', texthl = 'DiagnosticError' },
+  DapBreakpoint = { text = '●', texthl = 'DiagnosticError' },
   DapBreakpointCondition = { text = '◆', texthl = 'DiagnosticWarn' },
-  DapLogPoint            = { text = '◉', texthl = 'DiagnosticInfo' },
-  DapBreakpointRejected  = { text = '○', texthl = 'DiagnosticHint' },
-  DapStopped             = { text = '→', texthl = 'DiagnosticOk', linehl = 'Visual' },
+  DapLogPoint = { text = '◉', texthl = 'DiagnosticInfo' },
+  DapBreakpointRejected = { text = '○', texthl = 'DiagnosticHint' },
+  DapStopped = { text = '→', texthl = 'DiagnosticOk', linehl = 'Visual' },
 }
 for name, sign in pairs(signs) do
   vim.fn.sign_define(name, sign)

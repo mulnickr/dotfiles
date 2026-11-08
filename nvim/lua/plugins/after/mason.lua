@@ -7,6 +7,8 @@ local tools = {
   'gopls',
   'typescript-language-server',
   'lua-language-server',
+  'css-lsp',
+  'json-lsp',
   -- debug adapters (see lua/plugins/after/dap.lua)
   'delve',
   'js-debug-adapter',

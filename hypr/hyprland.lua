@@ -11,7 +11,6 @@ require("conf.calendar")
 require("conf.keybinds")
 require("conf.autostart")
 
-
 -----------------------
 ----- PERMISSIONS -----
 -----------------------

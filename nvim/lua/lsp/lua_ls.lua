@@ -15,9 +15,9 @@ return {
       workspace = {
         checkThirdParty = false, --- `true` prompts "configure as luv?" on every new workspace
         library = {
-          vim.env.VIMRUNTIME
+          vim.env.VIMRUNTIME,
         },
       },
     },
-  }
+  },
 }

@@ -72,7 +72,7 @@ local plugin_list = pack.flatten({
 
 for i, p in ipairs(plugin_list) do
   if not p.src then
-    error("Broken plugin at index " .. i .. ": " .. vim.inspect(p) .. vim.inspect(plugin_list))
+    error('Broken plugin at index ' .. i .. ': ' .. vim.inspect(p) .. vim.inspect(plugin_list))
   end
 end
 

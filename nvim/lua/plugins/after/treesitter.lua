@@ -4,8 +4,15 @@
 
 -- lua, vim, vimdoc, markdown, query and c parsers ship with Neovim.
 local parsers = {
-  'go', 'gomod', 'gowork', 'gosum',
-  'javascript', 'typescript', 'tsx', 'jsdoc', 'json',
+  'go',
+  'gomod',
+  'gowork',
+  'gosum',
+  'javascript',
+  'typescript',
+  'tsx',
+  'jsdoc',
+  'json',
   'luadoc',
 }
 

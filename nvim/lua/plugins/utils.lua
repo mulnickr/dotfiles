@@ -5,14 +5,14 @@ local P = {}
 ---@param spec string | table plugin to install
 ---@return table spec formatted plugin spec
 function P.plugin(spec)
-  if type(spec) == "string" then
-    return { src = "https://github.com/" .. spec }
-  elseif type(spec) == "table" then
+  if type(spec) == 'string' then
+    return { src = 'https://github.com/' .. spec }
+  elseif type(spec) == 'table' then
     local name = spec[1]
     if not name then
-      error("plugin: missing plugin name in spec: " .. vim.inspect(spec))
+      error('plugin: missing plugin name in spec: ' .. vim.inspect(spec))
     end
-    local result = { src = "https://github.com/" .. name }
+    local result = { src = 'https://github.com/' .. name }
     for k, v in pairs(spec) do
       if k ~= 1 then
         result[k] = v
@@ -20,7 +20,7 @@ function P.plugin(spec)
     end
     return result
   else
-    error("plugin: invalid type")
+    error('plugin: invalid type')
   end
 end
 
@@ -35,14 +35,18 @@ end
 function P.plugin_group(prefix, specs)
   local result = {}
   for _, spec in ipairs(specs) do
-    if type(spec) == "string" then
+    if type(spec) == 'string' then
       local new = P.plugin(prefix .. spec)
-      local conf = { config = function() require(spec).setup() end }
+      local conf = {
+        config = function()
+          require(spec).setup()
+        end,
+      }
       local tbl = vim.tbl_extend('force', new, conf)
       table.insert(result, tbl)
-    elseif type(spec) == "table" then
+    elseif type(spec) == 'table' then
       if not spec[1] then
-        error("plugin_group: missing plugin name: " .. vim.inspect(spec))
+        error('plugin_group: missing plugin name: ' .. vim.inspect(spec))
       end
       local new = { prefix .. spec[1] }
       for k, v in pairs(spec) do
@@ -52,7 +56,7 @@ function P.plugin_group(prefix, specs)
       end
       table.insert(result, P.plugin(new))
     else
-      error("plugin_group: invalid type")
+      error('plugin_group: invalid type')
     end
   end
   return result
@@ -62,10 +66,14 @@ end
 ---@param t table
 ---@return boolean
 function P.is_array(t)
-  if type(t) ~= "table" then return false end
+  if type(t) ~= 'table' then
+    return false
+  end
   local i = 1
   for k, _ in pairs(t) do
-    if k ~= i then return false end
+    if k ~= i then
+      return false
+    end
     i = i + 1
   end
   return true
@@ -78,7 +86,7 @@ end
 function P.flatten(t)
   local result = {}
   local function _flatten(item)
-    if type(item) == "table" and P.is_array(item) then
+    if type(item) == 'table' and P.is_array(item) then
       for _, v in ipairs(item) do
         _flatten(v)
       end
@@ -95,10 +103,10 @@ end
 ---@param plugins table plugin specs
 function P.init_plugins(plugins)
   for _, p in ipairs(plugins) do
-    if type(p) == "table" and type(p.config) == "function" then
+    if type(p) == 'table' and type(p.config) == 'function' then
       local ok, err = pcall(p.config)
       if not ok then
-        vim.notify("Plugin initialization failed (" .. p.src .. "): " .. err, vim.log.levels.ERROR)
+        vim.notify('Plugin initialization failed (' .. p.src .. '): ' .. err, vim.log.levels.ERROR)
       end
     end
   end

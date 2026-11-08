@@ -1,5 +1,16 @@
-# Formatter settings (shfmt reads this; prettier and ruff have their own config files)
+# Formatter settings. Neovim's format key (<leader>f) formats Lua, CSS and JSON through their
+# language servers, which follow these sections; shfmt reads the shell ones. ruff (Python) has
+# its own ruff.toml.
 root = true
+
+[*.lua]
+indent_style = space
+indent_size = 2
+max_line_length = 120
+
+[*.{css,json,jsonc}]
+indent_style = space
+indent_size = 2
 
 [*.sh]
 indent_style = space
