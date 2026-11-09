@@ -29,6 +29,18 @@ Both scripts move anything already at a target to `<target>.bak-<timestamp>` ins
 deleting it, and can be re-run safely. Apps that aren't installed are skipped,
 so re-run the script after installing one.
 
+To link only some apps, name them, or skip some (names are the folder names above; `bash` for `.bashrc`):
+
+| Want                      | Linux                          | Windows                       |
+| ------------------------- | ------------------------------ | ----------------------------- |
+| Only Neovim               | `install.sh nvim`              | `install.ps1 nvim`            |
+| Everything except WezTerm | `install.sh --skip wezterm`    | `install.ps1 -Skip wezterm`   |
+| Usage                     | `install.sh --help`            | `install.ps1 -Help`           |
+
+Several names can be given space or comma separated. Skipped and not-installed apps are left
+completely alone, including their old configs (e.g. `~/.wezterm.lua` is only moved aside when
+WezTerm is linked).
+
 ## Adding a config
 
 1. Copy the existing folder into the repo, e.g. `cp -r ~/.config/hypr ~/dotfiles/hypr`
