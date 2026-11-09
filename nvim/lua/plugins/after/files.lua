@@ -10,6 +10,11 @@ files.setup({
     preview = true,
     width_preview = 50,
   },
+  mappings = {
+    -- Swapped: `l` opens a file and closes the explorer, `L` keeps it open
+    go_in = 'L',
+    go_in_plus = 'l',
+  },
 })
 
 -- Keybinds
