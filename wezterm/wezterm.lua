@@ -71,6 +71,10 @@ local config = {
     },
     { key = "i", mods = "LEADER",       action = "TogglePaneZoomState" },
     { key = "c", mods = "LEADER",       action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+    { key = "t", mods = "LEADER",       action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+    -- Next/previous tab (wrap around at the ends); LEADER + 1-9 below jump to a tab
+    { key = "Tab", mods = "LEADER",       action = wezterm.action.ActivateTabRelative(1) },
+    { key = "Tab", mods = "LEADER|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
     { key = "s", mods = "LEADER",       action = wezterm.action.PaneSelect },
     { key = "h", mods = "LEADER",       action = wezterm.action({ ActivatePaneDirection = "Left" }) },
     { key = "j", mods = "LEADER",       action = wezterm.action({ ActivatePaneDirection = "Down" }) },
