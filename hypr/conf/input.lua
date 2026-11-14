@@ -13,6 +13,10 @@ hl.config({
     touchpad = {
       natural_scroll = true,
       scroll_factor = 0.3,
+      -- Bottom-edge click zones: left + right only. Enabling middle button
+      -- emulation makes libinput drop the middle soft-button area.
+      clickfinger_behavior = false,
+      middle_button_emulation = true,
     },
   },
 })
